@@ -1,1 +1,4 @@
 #App
+IotwareFW/oal/kernel/*
+IotwareFW/oal/bsp/*
+IotwareFW/oal/drivers/*
