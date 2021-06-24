@@ -17,8 +17,20 @@ include ../Make/toolchain.mk
 # general options
 
 IW_INCS += include
-IW_SRCS +=# End of line
-IW_CFLAGS += -D__IOTWARE__
+IW_SRCS +=# end of line
+IW_LDLIBS +=# end of line
+
+MACROS += -D__IOTWARE__
+
+ifneq ($(IW_OS),)
+MACROS += -DIW_OS=\"$(IW_OS)\"
+endif # IW_OS
+
+ifneq ($(IW_BSP),)
+MACROS += -DIW_BSP=\"$(IW_BSP)\"
+endif # IW_BSP
+
+IW_CFLAGS += -D__IOTWARE__ 
 IW_CXXFLAGS += -D__IOTWARE__
 IW_CPPFLAGS += -D__IOTWARE__
 IW_ARFLAGS += -D__IOTWARE__
@@ -68,15 +80,18 @@ $(OUT)/%.o: %.c
 	$(CC) $(IW_CFLAGS) $(IW_INCS:%=-I%) -MMD -MF $(@:%.o=%.d) -c -o $@ $<
 
 $(OUT)/$(TAR).elf: $(OBJS:%=$(OUT)/%)
+	$(MD) $(dir $@)
+	$(LD) -Wl,-Map=$(@:%.elf=%.map) $(IW_LDFLAGS) $? $(IW_LDLIBS) -o $@
 
 $(OUT)/$(TAR).hex: $(OUT)/$(TAR).elf
 
 $(OUT)/$(TAR).bin: $(OUT)/$(TAR).elf
+	$(OBJCOPY) -O binary $< $@
 
 $(OUT)/$(TAR): $(OUT)/$(TAR)$(EXT)
+	$(CP) $< $@
 
 $(TAR): $(OUT)/$(TAR)
-# $(CP) $< $@
 
 build: $(TAR)
 

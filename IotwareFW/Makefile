@@ -156,13 +156,13 @@
 
 # all: build
 
-# build: build-all
+.DEFAULT: build
 
-# build-all: disp-all
-# 	make -C $(IW_MK_PATH) -f $(IW_MK_PATH)/Makefile all
+build:
+	$(MAKE) -C $(CURDIR) -f ../Make/build.mk build
 
-# clean: disp-target
-# 	make -C $(IW_MK_PATH) -f $(IW_MK_PATH)/Makefile clean
+clean:
+	$(MAKE) -C $(CURDIR) -f ../Make/build.mk clean
 
 # burn: disp-target
 # 	make -C $(IW_MK_PATH) -f $(IW_MK_PATH)/Makefile burn

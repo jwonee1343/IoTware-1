@@ -2,12 +2,10 @@
 # iw makefile
 #
 
-# # Check essentials
-# ifndef IW_HOME 
-#   $(error IW_HOME is not defined. please set value for IW_HOME)
-# endif # !IW_HOME
+# path
 
-# IW_LIBRARY_HOME := oal/iw
+IW_DIR := oal/iw
+
 # #IW_LIBRARY_HOME := \
 # 	$(patsubst $(IW_HOME)/%, %, \
 # 	$(shell dirname \
@@ -19,7 +17,7 @@
 # # INCLUDES FOR IW LIBRARY
 # #===============================================================================
 
-# IW_INCS += $(IW_LIBRARY_HOME)
+IW_INCS += $(IW_DIR)
 
 # #===============================================================================
 # # SOURCES FOR IW LIBRARY
@@ -39,7 +37,7 @@
 #   IW_SRCS += $(IW_LIBRARY_HOME)/iw_if_gpio.c
 #   IW_SRCS += $(IW_LIBRARY_HOME)/iw_if_i2c.c
 #   IW_SRCS += $(IW_LIBRARY_HOME)/iw_if_uart.c
-#   IW_SRCS += $(IW_LIBRARY_HOME)/iw_main.c
+IW_SRCS += $(IW_DIR)/iw_main.c
 # endif # !IW_BSP || IW_BSP
 
 # ifndef IW_OS
