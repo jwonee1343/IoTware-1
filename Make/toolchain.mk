@@ -1,4 +1,12 @@
 
+ifneq ($(IW_VERBOSE),y)
+Q := @
+endif # IW_VERBOSE
+
+# unix commands
+
+CP := $(Q)cp -r
+RM := $(Q)rm -rf
 
 #PWD_SPLIT	:= $(subst /, , $(PWD))
 IW_TARGET	:= IoTWare

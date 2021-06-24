@@ -1,7 +1,9 @@
 #
 # iotware makefile
 #
-
+export IW_OS := os
+export IW_BSP := bsp
+export IW_DRIVERS := a b c
 # PROJECT_PATH ?= $(IOTWARE)/App
 
 # # export LOWPOWER_ENABLE := 0
@@ -203,16 +205,13 @@
 # setup-toolchain:
 # 	make -C $(IW_HOME)/tools/toolchain all
 
-# project-clean: 
-# 	@rm -rf $(IW_BSP_PATH)/*
-# 	@rm -rf $(IW_OS_PATH)/*
+project-change: project-copy
 
-# include oal/drivers/Makefile
-# project-copy: project-clean
-# 	@cp -r $(IW_EXT_BSP_PATH)/* $(IW_BSP_PATH)/
-# 	@cp -r $(IW_EXT_OS_PATH)/* $(IW_OS_PATH)/
+project-copy:
+	$(MAKE) -C $(CURDIR) -f ../Make/project.mk copy
 
-# project-change: project-copy
+project-clean:
+	$(MAKE) -C $(CURDIR) -f ../Make/project.mk clean
 	
 # disp-all: disp-target disp-option disp-sensor disp-network disp-service
 
