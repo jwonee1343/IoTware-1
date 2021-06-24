@@ -1,9 +1,7 @@
 #
 # iotware makefile
 #
-export IW_OS := os
-export IW_BSP := bsp
-export IW_DRIVERS := a b c
+
 # PROJECT_PATH ?= $(IOTWARE)/App
 
 # # export LOWPOWER_ENABLE := 0
