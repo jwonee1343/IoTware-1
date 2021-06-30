@@ -5,42 +5,41 @@ This License and Service Agreement (LSA) applies to all works and their derivati
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you want to commercialize the result in some form, you will be covered under a commercial license. And if you are subject to a commercial license, the contract for the use of IoTware Project is subject to TECHNOLOGY LICENSE AGREEMENT of ETRI. You acknowledge that ETRI has all legal rights, title and interest, including intellectual property rights in the IoTware Project (regardless of whether such intellectual property rights are registered or where such rights exist) and agree with no objection thereto. Except as provided in a subsidiary agreement, nothing in this LSA grants you the right to use IoTware Project or the name, service mark, logo, domain name and other unique identification marks of ETRI.
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you do not commercialize the result in any form, you will be covered under an open source license. IoTware Project is in accordance with Free Software Foundation (FSF)'s open source policy, and is allowed to use it in the appropriate scope and manner, and you must comply with the applicable open source license policy applied to IoTware Project. IoTware Project is, in principle, subject to GNU Lesser General Public License version 2.1 (LGPLv2.1). If you have acquired all or a part of the IoTware Project in any way and it is subject to a license other than the open source license described above, please contact the following address for the technical support and other inquiries before use, and check the usage information.
 */
-#include "iw_common.h"
+
 #include "iw_oal.h"
-#include "iw_bsp.h"
 
 void iw_init_os(void)
 {
-    kernel_init_os();
-	//iw_delay_ms(100);
+    oal_os_init();
 }
 
 char *iw_os_name(void)
 {
-    return kernel_name();
+    return IW_OS_NAME;
 }
 
-void iw_start_scheduler (void)
+void iw_start_scheduler(void)
 {
-    kernel_start_scheduler();
+    extern void iw_init_service(void);
+    oal_os_start(iw_init_service);
 }
 
-void iw_yield (void)
+void iw_yield(void)
 {
-    kernel_yield();
+    oal_yield();
 }
 
-void iw_yield_isr (int arg)
+void iw_yield_isr(int arg)
 {
-    kernel_yield_isr(arg);
+    oal_yield_isr(arg);
 }
 
 void iw_enter_critical(void)
 {
-    kernel_enter_critical();
+    oal_crit_enter();
 }
 
 void iw_exit_critical(void)
 {
-    kernel_exit_critical();
+    oal_crit_exit();
 }

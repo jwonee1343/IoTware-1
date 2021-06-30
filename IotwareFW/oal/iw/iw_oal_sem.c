@@ -6,34 +6,41 @@ If you use the source form version or object form version of IoTware Project in 
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you do not commercialize the result in any form, you will be covered under an open source license. IoTware Project is in accordance with Free Software Foundation (FSF)'s open source policy, and is allowed to use it in the appropriate scope and manner, and you must comply with the applicable open source license policy applied to IoTware Project. IoTware Project is, in principle, subject to GNU Lesser General Public License version 2.1 (LGPLv2.1). If you have acquired all or a part of the IoTware Project in any way and it is subject to a license other than the open source license described above, please contact the following address for the technical support and other inquiries before use, and check the usage information.
 */
 
-#include "iw_common.h"
 #include "iw_oal.h"
-
-
 
 iw_error_t iw_create_sem(iw_sem_t *sem, unsigned int max_count, unsigned int init_count)
 {
-	*sem = kernel_create_sem(max_count, init_count);
+    int32_t error;
 
-    return (*sem == NULL) ? IW_FAIL : IW_SUCCESS;
+    error = oal_sem_create(sem, max_count, init_count);
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 void iw_delete_sem(iw_sem_t sem)
 {
-    kernel_delete_sem(sem);
+    oal_sem_delete(sem);
 }
 
 iw_error_t iw_lock_sem(iw_sem_t sem, unsigned int tick)
 {
-    return kernel_lock_sem(sem, tick);
+    int32_t error;
+
+    error = oal_sem_lock(sem, tick);
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 iw_error_t iw_unlock_sem(iw_sem_t sem, iw_task_t receive_task)
 {
-    return kernel_unlock_sem(sem, receive_task);
+    int32_t error;
+    
+    error = oal_sem_unlock(sem, receive_task);
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 iw_error_t iw_unlock_sem_isr(iw_sem_t sem, int32_t *pWoken)
 {
-    return kernel_unlock_sem_isr(sem, pWoken);
+    int32_t error;
+
+    error = oal_sem_unlock_isr(sem, pWoken);
+    return error ? IW_FAIL : IW_SUCCESS;
 }

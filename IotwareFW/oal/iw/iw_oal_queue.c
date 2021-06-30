@@ -6,41 +6,58 @@ If you use the source form version or object form version of IoTware Project in 
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you do not commercialize the result in any form, you will be covered under an open source license. IoTware Project is in accordance with Free Software Foundation (FSF)'s open source policy, and is allowed to use it in the appropriate scope and manner, and you must comply with the applicable open source license policy applied to IoTware Project. IoTware Project is, in principle, subject to GNU Lesser General Public License version 2.1 (LGPLv2.1). If you have acquired all or a part of the IoTware Project in any way and it is subject to a license other than the open source license described above, please contact the following address for the technical support and other inquiries before use, and check the usage information.
 */
 
-#include "iw_common.h"
 #include "iw_oal.h"
 
 iw_queue_t iw_create_queue(unsigned int q_size, unsigned int item_size)
 {
-    return kernel_create_queue(q_size, item_size);
+    oal_queue_t new_queue;
+    int32_t error;
+
+    error = oal_queue_create(&new_queue, q_size, item_size);
+    return (iw_queue_t)(error ? NULL : new_queue); 
 }
 
-void iw_delete_queue(iw_queue_t q)
+void iw_delete_queue(iw_queue_t queue)
 {
-    kernel_delete_queue(q);
+    oal_queue_delete(queue);
 }
 
 iw_error_t iw_send_queue(iw_queue_t q, void *ptr, unsigned int tick, iw_task_t receive_task)
 {
-    return  kernel_send_queue(q, ptr, tick, receive_task);
+    int32_t error;
+
+    error = oal_queue_send(q, ptr, tick, receive_task);
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 iw_error_t iw_send_queue_isr(iw_queue_t q, void *ptr, int32_t *pWoken)
 {
-    return  kernel_send_queue_isr(q, ptr, pWoken);
+    int32_t error;
+
+    error = oal_queue_send_isr(q, ptr, pWoken);
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 iw_error_t iw_recv_queue(iw_queue_t q, void *ptr, int block)
 {
-    return kernel_recv_queue(q, ptr, block);
+    int32_t error;
+
+    error = oal_queue_recv(q, ptr, block);
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 iw_error_t iw_peek_queue(iw_queue_t q, void *ptr, uint32_t tick)
 {
-    return kernel_peek_queue(q, ptr, tick);
+    int32_t error;
+
+    error = oal_queue_peek(q, ptr, tick);
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 iw_error_t iw_reset_queue(iw_queue_t q)
 {
-    return kernel_reset_queue(q);
-}
+    int32_t error;
 
+    error = oal_queue_reset(q);
+    return error ? IW_FAIL : IW_SUCCESS;
+}

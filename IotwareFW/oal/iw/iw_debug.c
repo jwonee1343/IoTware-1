@@ -420,10 +420,10 @@ int d_printf(void (*dputc)(int), char *fmt, int *args)
 			fill = ' ';
 			break;
 		case 's':
-			str = (char *)*args;
+			str = *((char **)args);
 			for (length = 0; *str++; length++)
 				;
-			str = (char *)*args;
+			str = *((char **)args);
 			fill = ' ';
 			break;
 		case 'd':
@@ -458,7 +458,7 @@ int d_printf(void (*dputc)(int), char *fmt, int *args)
 			break;
 		default:
 			/* format is not supported */
-			str = (char *)*args;
+			str = *((char **)args);
 			length = 1;
 			break;
 		}

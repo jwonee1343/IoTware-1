@@ -54,67 +54,67 @@ typedef enum
 //     LOWPOWER_ONMODE         ,
 // }lowpower_mode_t;
 
-#if (IW_NANOQPLUS == 1)
-#define TOTAL_HEAP_SIZE  ((size_t)nos_total_heap_size())
-#define FREE_HEAP_SIZE   ((size_t)nos_free_heap_size())
+// #if (IW_NANOQPLUS == 1)
+// #define TOTAL_HEAP_SIZE  ((size_t)nos_total_heap_size())
+// #define FREE_HEAP_SIZE   ((size_t)nos_free_heap_size())
 
-#elif (IW_FREERTOS == 1)
+// #elif (IW_FREERTOS == 1)
 
-#if ( IW_MCU_STM32 == 1 )
+// #if ( IW_MCU_STM32 == 1 )
 
-#define TOTAL_HEAP_SIZE ((size_t) xTotalHeapSize)
-#define FREE_HEAP_SIZE   ((size_t)xPortGetFreeHeapSize())
-extern size_t xPortGetFreeHeapSize(), xTotalHeapSize;
+// #define TOTAL_HEAP_SIZE ((size_t) xTotalHeapSize)
+// #define FREE_HEAP_SIZE   ((size_t)xPortGetFreeHeapSize())
+// extern size_t xPortGetFreeHeapSize(), xTotalHeapSize;
 
-#elif( IW_MCU_NORDIC == 1 )
+// #elif( IW_MCU_NORDIC == 1 )
 
-#define TOTAL_HEAP_SIZE ((size_t) configTOTAL_HEAP_SIZE)
-#define FREE_HEAP_SIZE   ((size_t)xPortGetFreeHeapSize())
-extern size_t xPortGetFreeHeapSize();
+// #define TOTAL_HEAP_SIZE ((size_t) configTOTAL_HEAP_SIZE)
+// #define FREE_HEAP_SIZE   ((size_t)xPortGetFreeHeapSize())
+// extern size_t xPortGetFreeHeapSize();
 
-#elif( IW_MCU_TCC == 1 )
+// #elif( IW_MCU_TCC == 1 )
 
-#define TOTAL_HEAP_SIZE  ((size_t)(&__UserSpaceEnd) - (size_t)(&__UserSpaceStart))
-#define FREE_HEAP_SIZE   ((size_t)xPortGetFreeHeapSize())
-extern size_t xPortGetFreeHeapSize();
-extern uint32_t __UserSpaceStart, __UserSpaceEnd;
+// #define TOTAL_HEAP_SIZE  ((size_t)(&__UserSpaceEnd) - (size_t)(&__UserSpaceStart))
+// #define FREE_HEAP_SIZE   ((size_t)xPortGetFreeHeapSize())
+// extern size_t xPortGetFreeHeapSize();
+// extern uint32_t __UserSpaceStart, __UserSpaceEnd;
 
-#endif //( IW_MCU_STM32 == 1)
+// #endif //( IW_MCU_STM32 == 1)
 
-#elif( IW_RIOT == 1 )
+// #elif( IW_RIOT == 1 )
 
-#include "kernel_types.h"
-#include "thread.h"
-extern uint32_t riot_total_heap_size();
-extern uint32_t riot_free_heap_size();
-#define TOTAL_HEAP_SIZE  ((size_t)riot_total_heap_size())
-#define FREE_HEAP_SIZE   ((size_t)riot_free_heap_size())
+// #include "kernel_types.h"
+// #include "thread.h"
+// extern uint32_t riot_total_heap_size();
+// extern uint32_t riot_free_heap_size();
+// #define TOTAL_HEAP_SIZE  ((size_t)riot_total_heap_size())
+// #define FREE_HEAP_SIZE   ((size_t)riot_free_heap_size())
 
-#elif( IW_APACHEMYNEWT == 1 )
+// #elif( IW_APACHEMYNEWT == 1 )
 
-#define TOTAL_HEAP_SIZE  (__HEAP_SIZE)
-#define FREE_HEAP_SIZE   (__HEAP_SIZE) // TODO: How to check free heap size
+// #define TOTAL_HEAP_SIZE  (__HEAP_SIZE)
+// #define FREE_HEAP_SIZE   (__HEAP_SIZE) // TODO: How to check free heap size
 
-#endif // (IW_NANOQPLUS == 1)
+// #endif // (IW_NANOQPLUS == 1)
 
 
-#if ( IW_MCU_NORDIC == 1 || IW_MCU_TCC == 1 )
-#define GLOBAL_DATA_SIZE ((size_t)(&__bss_end__) - (size_t)(&__data_start__))
-extern uint32_t __bss_end__, __data_start__;
+// #if ( IW_MCU_NORDIC == 1 || IW_MCU_TCC == 1 )
+// #define GLOBAL_DATA_SIZE ((size_t)(&__bss_end__) - (size_t)(&__data_start__))
+// extern uint32_t __bss_end__, __data_start__;
 
-#elif( IW_MCU_STM32 == 1 )
+// #elif( IW_MCU_STM32 == 1 )
 
-#if (IW_FREERTOS == 1)
-#define GLOBAL_DATA_SIZE ((size_t)(&__bss_end__) - (size_t)(&_sdata) - TOTAL_HEAP_SIZE)
-#else
-#define GLOBAL_DATA_SIZE ((size_t)(&__bss_end__) - (size_t)(&_sdata))
-#endif
+// #if (IW_FREERTOS == 1)
+// #define GLOBAL_DATA_SIZE ((size_t)(&__bss_end__) - (size_t)(&_sdata) - TOTAL_HEAP_SIZE)
+// #else
+// #define GLOBAL_DATA_SIZE ((size_t)(&__bss_end__) - (size_t)(&_sdata))
+// #endif
 
-extern uint32_t __bss_end__, _sdata;
+// extern uint32_t __bss_end__, _sdata;
 
-#else
-#error "please check your $(IW_CHIP)!!!"
-#endif
+// #else
+// #error "please check your $(IW_CHIP)!!!"
+// #endif
 
 iw_error_t iw_get_mcu_info(mcu_type_t *id);
 const char* iw_get_mcu_name(mcu_type_t type);

@@ -5,21 +5,20 @@ This License and Service Agreement (LSA) applies to all works and their derivati
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you want to commercialize the result in some form, you will be covered under a commercial license. And if you are subject to a commercial license, the contract for the use of IoTware Project is subject to TECHNOLOGY LICENSE AGREEMENT of ETRI. You acknowledge that ETRI has all legal rights, title and interest, including intellectual property rights in the IoTware Project (regardless of whether such intellectual property rights are registered or where such rights exist) and agree with no objection thereto. Except as provided in a subsidiary agreement, nothing in this LSA grants you the right to use IoTware Project or the name, service mark, logo, domain name and other unique identification marks of ETRI.
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you do not commercialize the result in any form, you will be covered under an open source license. IoTware Project is in accordance with Free Software Foundation (FSF)'s open source policy, and is allowed to use it in the appropriate scope and manner, and you must comply with the applicable open source license policy applied to IoTware Project. IoTware Project is, in principle, subject to GNU Lesser General Public License version 2.1 (LGPLv2.1). If you have acquired all or a part of the IoTware Project in any way and it is subject to a license other than the open source license described above, please contact the following address for the technical support and other inquiries before use, and check the usage information.
 */
-#include "iw_common.h"
+
 #include "iw_oal.h"
 
 iw_tick_t iw_get_tick_count(void)
 {
-    return kernel_get_tick_count();
+    return oal_tick_get();
 }
 
 unsigned int iw_get_time_ms(void)
 {
-    return (kernel_get_time_ms() * IW_TICK_PERIOD_MS);
+    return oal_tick_to_ms(oal_tick_get());
 }
-
 
 void iw_sleep(unsigned int ms)
 {
-    kernel_sleep(ms);
+    oal_sleep(ms);
 }

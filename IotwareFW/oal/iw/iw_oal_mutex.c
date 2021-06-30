@@ -5,32 +5,42 @@ This License and Service Agreement (LSA) applies to all works and their derivati
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you want to commercialize the result in some form, you will be covered under a commercial license. And if you are subject to a commercial license, the contract for the use of IoTware Project is subject to TECHNOLOGY LICENSE AGREEMENT of ETRI. You acknowledge that ETRI has all legal rights, title and interest, including intellectual property rights in the IoTware Project (regardless of whether such intellectual property rights are registered or where such rights exist) and agree with no objection thereto. Except as provided in a subsidiary agreement, nothing in this LSA grants you the right to use IoTware Project or the name, service mark, logo, domain name and other unique identification marks of ETRI.
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you do not commercialize the result in any form, you will be covered under an open source license. IoTware Project is in accordance with Free Software Foundation (FSF)'s open source policy, and is allowed to use it in the appropriate scope and manner, and you must comply with the applicable open source license policy applied to IoTware Project. IoTware Project is, in principle, subject to GNU Lesser General Public License version 2.1 (LGPLv2.1). If you have acquired all or a part of the IoTware Project in any way and it is subject to a license other than the open source license described above, please contact the following address for the technical support and other inquiries before use, and check the usage information.
 */
-#include "iw_common.h"
+
 #include "iw_oal.h"
 
 iw_error_t iw_create_mutex(iw_mutex_t *mutex)
 {
-    *mutex = kernel_create_mutex();
+    int32_t error;
 
-    return (*mutex == 0) ? IW_FAIL : IW_SUCCESS;
+    error = oal_mutex_create(mutex);
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 void iw_delete_mutex(iw_mutex_t mutex)
 {
-    kernel_delete_mutex(mutex);
+    oal_mutex_delete(mutex);
 }
 
-iw_error_t iw_lock_mutex(iw_mutex_t mutex)
+iw_error_t iw_lock_mutex(iw_mutex_t mutex) 
 {
-    return kernel_lock_mutex(mutex);
+    int32_t error;
+
+    error = oal_mutex_lock(mutex, IW_INFINITE);
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 iw_error_t iw_lock_mutex_ms(iw_mutex_t mutex, unsigned int ms_to_wait)
 {
-    return kernel_lock_mutex_ms(mutex, ms_to_wait);
+    int32_t error;
+
+    error = oal_mutex_lock(mutex, oal_tick_from_ms(ms_to_wait));
+    return error ? IW_FAIL : IW_SUCCESS;
 }
 
 iw_error_t iw_unlock_mutex(iw_mutex_t mutex)
 {
-    return kernel_unlock_mutex(mutex);
+    int32_t error;
+
+    error = oal_mutex_unlock(mutex);
+    return error ? IW_FAIL : IW_SUCCESS;
 }

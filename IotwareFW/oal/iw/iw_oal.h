@@ -9,26 +9,31 @@ If you use the source form version or object form version of IoTware Project in 
 #ifndef	IW_OAL_H
 #define	IW_OAL_H
 
-/**
- * \addtogroup	OS Abstraction Layer
- * @brief	OS abstraction APIs for FreeRTOS, NanoQplus, RIOT, ApacheMynewt, Contiki
- * @{
- */
+#include "iw_common.h"
 
-#include "kernel_oal.h"
+#include "oal_os.h"
 
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
-/**
- * @brief	Priorities of task
- */
-enum iw_oal_task_priority_e
-{
-	IW_TSK_PRIO_IDLE	= OAL_TSK_PRIO_IDLE_,	/*!< lowest priority at which the idle task will execute */
-	IW_TSK_PRIO_MAX		= OAL_TSK_PRIO_MAX_,	/*!< highest priority at which a task will execute */
-};
+#define IW_OS_NAME              OAL_OS_NAME
+#define	IW_TICK_PERIOD_MS       OAL_TICK_PER_MS
+#define IW_INFINITE			    OAL_TICK_FOREVER
+#define IW_TSK_PRIO_IDLE        OAL_TASK_PRIO_IDLE
+#define IW_TSK_PRIO_MAX         OAL_TASK_PRIO_HIGH
+#define	IW_MINIMAL_STACK_SIZE   OAL_MIN_STACKLEN
 
-typedef struct
-{
+#define	oal_true				true
+#define	oal_false				false
+
+typedef oal_task_t              iw_task_t;
+typedef oal_queue_t             iw_queue_t;
+typedef oal_sem_t               iw_sem_t;
+typedef oal_mutex_t             iw_mutex_t;
+typedef oal_tick_t              iw_tick_t;
+
+typedef struct {
     volatile uint32_t put_pos;
     volatile uint32_t get_pos;
     uint32_t block_size;
@@ -37,8 +42,8 @@ typedef struct
 } iw_fifo_t;
 
 typedef struct iw_list_node {
-    struct iw_list_node *next;     /**< pointer to next list entry */
-    struct iw_list_node *previous;     /**< pointer to next list entry */
+    struct iw_list_node *next;
+    struct iw_list_node *previous;
     void *pData;
 } iw_list_node_t;
 
@@ -47,104 +52,40 @@ typedef struct iw_list {
     unsigned char nodeNum;
 } iw_list_t;
 
-
-/**
- * @brief	max delay tick count
- */
-#define IW_INFINITE			OAL_INFINITE_
-
-/**
- * @brief	minimal size of stack for task
- */
-#define	IW_MINIMAL_STACK_SIZE	OAL_MINIMAL_STACK_SIZE_
-
-/**
- * @brief	OS tick period in mili-second
- */
-#define	IW_TICK_PERIOD_MS		OAL_TICK_PERIOD_MS_
-
-/**
- * @brief	OK, normal, success and no problem
- */
-#define	oal_true				oal_true_
-
-/**
- * @brief	error, abnormal, failure whatever a root cause is
- */
-#define	oal_false				oal_false_
-
-/**
- * @brief	Task function that created task will run
- */
 typedef void (*iw_task_fn_t)(void *);
 
 /**
- * @brief	Handle to the task
- */
-//typedef void *oal_task_t;
-
-/**
- * @brief	Handle to Queue
- */
-typedef void *iw_queue_t;
-
-/**
- * @brief	Handle to semaphore
- */
-typedef void *iw_sem_t;
-
-/**
- * @brief	Handle to mutex
- */
-typedef void *iw_mutex_t;
-
-/**
- * @brief	type definition for OS tick count
- */
-typedef uint32_t iw_tick_t;
-
-/*--------- TASK -----------*/
-#if (IW_FREERTOS == 1)
-//typedef void *iw_task_t;
-#elif (IW_NANOQPLUS == 1)
-//typedef uint32_t iw_task_t;
-#elif (IW_RIOT == 1)
-//typedef uint32_t iw_task_t;
-//typedef int16_t iw_task_t;
-#else
-#endif
-
-/**
- * @brief	init the rtos
- * @return	NONE
+ * @brief   Initialize OS
  */
 void iw_init_os(void);
 
+/**
+ * @brief   Get OS name
+ */
 char *iw_os_name(void);
 
 /**
- * @brief	start the rtos scheduler
- * @return	NONE
+ * @brief   Start task scheduler
  */
 void iw_start_scheduler(void);
 
 /**
- * @brief	request to yield
+ * @brief   Yield current task
  */
-void iw_yield (void);
+void iw_yield(void);
 
 /**
- * @brief	request to yield in ISR
+ * @brief   Yield current task with ISR
  */
-void iw_yield_isr (int arg);
+void iw_yield_isr(int arg);
 
 /**
- * @brief	enter critical section
+ * @brief	Enter critical section
  */
 void iw_enter_critical(void);
 
 /**
- * @brief	exit critical section
+ * @brief	Exit critical section
  */
 void iw_exit_critical(void);
 
@@ -159,8 +100,7 @@ void iw_exit_critical(void);
  * @return	handle to the created task if the task was created successfully, or NULL in failure.
  *
  */
-iw_task_t iw_create_task(iw_task_fn_t fn,const char *name, unsigned int stack_size, void *arg,   
-                         unsigned int priority, void *ext);
+iw_task_t iw_create_task(iw_task_fn_t fn,const char *name, unsigned int stack_size, void *arg, unsigned int priority, void *ext);
 
 /**
  * @brief	delete task
@@ -494,8 +434,6 @@ iw_error_t iw_flush_fifo( iw_fifo_t *pfifo );
 #define IW_GET_LIST_NODE_NUM( list )  ( ( list )->nodeNum )
 
 void iw_get_cmd_str(char *buf);
-
-#include "kernel_func.h"
 
 /**
  *	@}

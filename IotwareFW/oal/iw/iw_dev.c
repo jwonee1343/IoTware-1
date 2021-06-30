@@ -12,7 +12,7 @@ If you use the source form version or object form version of IoTware Project in 
 #include "iw_dev_led.h"
 #include "iw_dev_batt.h"
 #include "iw_bsp.h"
-#include "bot_cle110.h"
+// #include "bot_cle110.h"
 
 
 #if defined(IOTWARE_BOARD)

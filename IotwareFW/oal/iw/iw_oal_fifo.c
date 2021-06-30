@@ -6,9 +6,7 @@ If you use the source form version or object form version of IoTware Project in 
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you do not commercialize the result in any form, you will be covered under an open source license. IoTware Project is in accordance with Free Software Foundation (FSF)'s open source policy, and is allowed to use it in the appropriate scope and manner, and you must comply with the applicable open source license policy applied to IoTware Project. IoTware Project is, in principle, subject to GNU Lesser General Public License version 2.1 (LGPLv2.1). If you have acquired all or a part of the IoTware Project in any way and it is subject to a license other than the open source license described above, please contact the following address for the technical support and other inquiries before use, and check the usage information.
 */
 
-#include "iw_common.h"
 #include "iw_oal.h"
-#include "iw_bsp.h"
 
 #define IW_PUT_FIFO_NEXT(pfifo)        ((pfifo->put_pos + 1) % pfifo->block_count)
 #define IW_GET_FIFO_NEXT(pfifo)        ((pfifo->get_pos + 1) % pfifo->block_count)
