@@ -3,7 +3,7 @@
 #
 
 # bsp name
-IW_BSP := unknown
+IW_BSP := stm32v2
 
 # current path
 BSP_DIR := oal/bsp
@@ -12,5 +12,5 @@ BSP_DIR := oal/bsp
 IW_INCS += $(BSP_DIR)
 
 # sources
-IW_SRCS += $(BSP_DIR)/bsp_main.C
+IW_SRCS += $(BSP_DIR)/bsp_main.c
 IW_SRCS += $(BSP_DIR)/bsp_rtc.c

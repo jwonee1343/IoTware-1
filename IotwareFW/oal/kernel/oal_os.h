@@ -14,17 +14,19 @@ If you use the source form version or object form version of IoTware Project in 
 #include <stddef.h>
 #include <stdint.h>
 
+#include "zephyr.h"
+
 /* macros */
 #define TOTAL_HEAP_SIZE 0
 #define FREE_HEAP_SIZE 0
 #define GLOBAL_DATA_SIZE 0
 
-#define OAL_OS_NAME ""
-#define	OAL_TICK_PER_MS 1
-#define OAL_TICK_FOREVER 0
-#define OAL_TASK_PRIO_IDLE 0
-#define OAL_TASK_PRIO_HIGH 0
-#define	OAL_MIN_STACKLEN 0
+#define OAL_OS_NAME "zephyr"
+#define	OAL_TICK_PER_MS (CONFIG_SYS_CLOCK_TICKS_PER_SEC / 1000)
+#define OAL_TICK_FOREVER (0xFFFFFFFFU)
+#define OAL_TASK_PRIO_IDLE (CONFIG_NUM_PREEMPT_PRIORITIES - 1)
+#define OAL_TASK_PRIO_HIGH (-CONFIG_NUM_COOP_PRIORITIES)
+#define	OAL_MIN_STACKLEN (K_THREAD_STACK_LEN(CONFIG_IDLE_STACK_SIZE))
 
 /* types */
 typedef void *oal_task_t;

@@ -1,0 +1,30 @@
+out/zephyr/zephyr/CMakeFiles/zephyr.dir/lib/os/cbprintf_complete.c.obj: \
+ oal/kernel/zephyrproject/zephyr/lib/os/cbprintf_complete.c \
+ out/zephyr/zephyr/include/generated/autoconf.h \
+ oal/kernel/zephyrproject/zephyr/include/toolchain/zephyr_stdint.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/ctype.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/errno.h \
+ oal/kernel/zephyrproject/zephyr/include/sys/errno_private.h \
+ oal/kernel/zephyrproject/zephyr/include/toolchain.h \
+ oal/kernel/zephyrproject/zephyr/include/toolchain/gcc.h \
+ oal/kernel/zephyrproject/zephyr/include/toolchain/common.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/stdbool.h \
+ out/zephyr/zephyr/include/generated/syscalls/errno_private.h \
+ out/zephyr/zephyr/include/generated/syscall_list.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/stdint.h \
+ oal/kernel/zephyrproject/zephyr/include/syscall.h \
+ oal/kernel/zephyrproject/zephyr/include/arch/syscall.h \
+ oal/kernel/zephyrproject/zephyr/include/arch/arm/aarch32/syscall.h \
+ oal/kernel/zephyrproject/zephyr/include/zephyr/types.h \
+ oal/kernel/zephyr-sdk-0.11.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/9.2.0/include/stddef.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/inttypes.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/limits.h \
+ oal/kernel/zephyr-sdk-0.11.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/9.2.0/include/stdarg.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/string.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/bits/restrict.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/sys/types.h \
+ oal/kernel/zephyrproject/zephyr/lib/libc/minimal/include/sys/_types.h \
+ oal/kernel/zephyrproject/zephyr/include/sys/util.h \
+ oal/kernel/zephyrproject/zephyr/include/sys/util_macro.h \
+ oal/kernel/zephyrproject/zephyr/include/sys/util_internal.h \
+ oal/kernel/zephyrproject/zephyr/include/sys/cbprintf.h

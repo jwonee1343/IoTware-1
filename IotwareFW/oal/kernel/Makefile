@@ -3,7 +3,7 @@
 #
 
 # os name
-IW_OS := unknown
+IW_OS := zephyr
 
 # current path
 OS_DIR := oal/kernel
@@ -13,3 +13,5 @@ IW_INCS += $(OS_DIR)
 
 # sources
 IW_SRCS += $(OS_DIR)/oal_os.c
+
+include $(OS_DIR)/build-stm32.mk
