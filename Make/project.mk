@@ -2,6 +2,8 @@
 # project.mk
 #
 
+# toolchain
+
 include ../Make/toolchain.mk
 
 # check requirements
@@ -27,8 +29,8 @@ EXT ?= ../External
 # commands
 
 copy:
-	$(CP) $(EXT)/bsp/$(IW_BSP) oal/bsp/.
-	$(CP) $(EXT)/kernel/$(IW_OS) oal/kernel/.
+	$(CP) $(EXT)/bsp/$(IW_BSP)/* oal/bsp/.
+	$(CP) $(EXT)/kernel/$(IW_OS)/* oal/kernel/.
 ifneq ($(IW_DRIVERS),)
 	$(CP) $(IW_DRIVERS:%=$(EXT)/drivers/%) oal/drivers/.
 endif # IW_DRIVERS

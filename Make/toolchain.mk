@@ -11,7 +11,7 @@ MD := $(Q)mkdir -p
 
 # compiler
 
-IW_CROSS :=
+# IW_CROSS := arm-none-eabi-
 
 CC := $(IW_CROSS)gcc -std=gnu99
 #AS := $(IW_CROSS)as

@@ -12,36 +12,46 @@ include ../Make/toolchain.mk
 -include $(wildcard oal/kernel/Makefile)
 -include $(wildcard oal/drivers/*/Makefile)
 -include $(wildcard oal/iw/Makefile)
--include $(wildcard oal/interface/Makefile)
+# -include $(wildcard oal/interface/Makefile)
+# -include $(wildcard Microservice/*/Makefile)
+ifneq ($(PROJECT_PATH),)
+-include $(wildcard $(PROJECT_PATH)/Makefile)
+endif
 
 # general options
+
+ifeq ($(IW_OS),)
+# $(error IW_OS is not defined)
+else
+MACROS += -DIW_$(shell echo $(IW_OS) | tr '[:lower:]' '[:upper:]')=1
+endif # IW_OS
+
+ifeq ($(IW_BSP),)
+# $(error IW_BSP is not defined)
+else
+MACROS += -DIW_$(shell echo $(IW_BSP) | tr '[:lower:]' '[:upper:]')=1
+endif # IW_BSP
+
+MACROS += -D__IOTWARE__
 
 IW_INCS += include
 IW_SRCS +=# end of line
 IW_LDLIBS +=# end of line
+IW_CFLAGS += $(MACROS)
+IW_CXXFLAGS += $(MACROS)
+IW_CPPFLAGS += $(MACROS)
+IW_ARFLAGS += $(MACROS)
+IW_ASFLAGS += $(MACROS)
+IW_LDFLAGS += $(MACROS)
 
-MACROS += -D__IOTWARE__
+# output
 
-ifneq ($(IW_OS),)
-MACROS += -DIW_OS=\"$(IW_OS)\"
-endif # IW_OS
-
-ifneq ($(IW_BSP),)
-MACROS += -DIW_BSP=\"$(IW_BSP)\"
-endif # IW_BSP
-
-IW_CFLAGS += -D__IOTWARE__ 
-IW_CXXFLAGS += -D__IOTWARE__
-IW_CPPFLAGS += -D__IOTWARE__
-IW_ARFLAGS += -D__IOTWARE__
-IW_ASFLAGS += -D__IOTWARE__
-IW_LDFLAGS += -D__IOTWARE__
-
-# output attributes
-
-OUT ?= out
+PROJECT_PATH ?= $(CURDIR)
+OUT ?= $(PROJECT_PATH)/out
 TAR ?= iotware
 EXT ?= .bin
+
+# objects
 
 OBJS := $(IW_SRCS)
 OBJS := $(OBJS:%.S=%.o)
@@ -55,13 +65,30 @@ OBJS := $(OBJS:%.c=%.o)
 
 .DEFAULT: build
 
+build: $(TAR)
+
+$(TAR): $(OUT)/$(TAR)
+
+$(OUT)/$(TAR): $(OUT)/$(TAR)$(EXT)
+	$(CP) $< $@
+
+$(OUT)/$(TAR).bin: $(OUT)/$(TAR).elf
+	$(OBJCOPY) -O binary $< $@
+
+$(OUT)/$(TAR).hex: $(OUT)/$(TAR).elf
+	$(OBJCOPY) -O ihex $< $@
+	
+$(OUT)/$(TAR).elf: $(OBJS:%=$(OUT)/%)
+	$(MD) $(dir $@)
+	$(LD) -Wl,-Map=$(@:%.elf=%.map) $(IW_CFLAGS) $(IW_LDFLAGS) $? $(IW_LDLIBS) -o $@
+
 $(OUT)/%.o: %.S
 	$(MD) $(dir $@)
-	$(AS) $(IW_ASFLAGS) $(IW_INCS:%=-I%) -MMD -MF $(@:%.o=%.d) -c -o $@ $<
+	$(AS) $(IW_CFLAGS) $(IW_ASFLAGS) $(IW_INCS:%=-I%) -MMD -MF $(@:%.o=%.d) -c -o $@ $<
 
 $(OUT)/%.o: %.s
 	$(MD) $(dir $@)
-	$(AS) $(IW_ASFLAGS) $(IW_INCS:%=-I%) -MMD -MF $(@:%.o=%.d) -c -o $@ $<
+	$(AS) $(IW_CFLAGS) $(IW_ASFLAGS) $(IW_INCS:%=-I%) -MMD -MF $(@:%.o=%.d) -c -o $@ $<
 
 $(OUT)/%.o: %.cpp
 	$(MD) $(dir $@)
@@ -78,22 +105,6 @@ $(OUT)/%.o: %.cc
 $(OUT)/%.o: %.c
 	$(MD) $(dir $@)
 	$(CC) $(IW_CFLAGS) $(IW_INCS:%=-I%) -MMD -MF $(@:%.o=%.d) -c -o $@ $<
-
-$(OUT)/$(TAR).elf: $(OBJS:%=$(OUT)/%)
-	$(MD) $(dir $@)
-	$(LD) -Wl,-Map=$(@:%.elf=%.map) $(IW_LDFLAGS) $? $(IW_LDLIBS) -o $@
-
-$(OUT)/$(TAR).hex: $(OUT)/$(TAR).elf
-
-$(OUT)/$(TAR).bin: $(OUT)/$(TAR).elf
-	$(OBJCOPY) -O binary $< $@
-
-$(OUT)/$(TAR): $(OUT)/$(TAR)$(EXT)
-	$(CP) $< $@
-
-$(TAR): $(OUT)/$(TAR)
-
-build: $(TAR)
 
 clean:
 	$(RM) $(TAR)
