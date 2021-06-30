@@ -6,10 +6,10 @@
 IW_OS := unknown
 
 # current path
-IW_OS_DIR := oal/kernel
+OS_DIR := oal/kernel
 
 # include path
-IW_INCS += $(IW_OS_DIR)
+IW_INCS += $(OS_DIR)
 
 # sources
-IW_SRCS += $(IW_OS_DIR)/oal_os.c
+IW_SRCS += $(OS_DIR)/oal_os.c

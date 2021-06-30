@@ -1,5 +1,5 @@
 #
-# iw/Makefile
+# for iotware api
 #
 
 # path

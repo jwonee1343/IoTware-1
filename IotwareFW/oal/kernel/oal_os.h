@@ -6,8 +6,8 @@ If you use the source form version or object form version of IoTware Project in 
 If you use the source form version or object form version of IoTware Project in whole or in part to develop a code or a derivative work, and you do not commercialize the result in any form, you will be covered under an open source license. IoTware Project is in accordance with Free Software Foundation (FSF)'s open source policy, and is allowed to use it in the appropriate scope and manner, and you must comply with the applicable open source license policy applied to IoTware Project. IoTware Project is, in principle, subject to GNU Lesser General Public License version 2.1 (LGPLv2.1). If you have acquired all or a part of the IoTware Project in any way and it is subject to a license other than the open source license described above, please contact the following address for the technical support and other inquiries before use, and check the usage information.
 */
 
-#ifndef	KERNEL_OAL_H
-#define	KERNEL_OAL_H
+#ifndef	OAL_OS_H
+#define	OAL_OS_H
 
 /* includes */
 #include <stdbool.h>
@@ -33,6 +33,8 @@ typedef void *oal_sem_t;
 typedef void *oal_mutex_t;
 typedef uint32_t oal_tick_t;
 
+/* functions */
+
 static inline oal_tick_t oal_tick_from_ms(uint32_t ms)
 {
     return ms / OAL_TICK_PER_MS;
@@ -43,7 +45,6 @@ static inline uint32_t oal_tick_to_ms(oal_tick_t tick)
     return tick * OAL_TICK_PER_MS;
 }
 
-/* functions */
 void oal_os_init(void);
 void oal_os_start(void (*init_app)(void));
 void oal_yield(void);
@@ -80,4 +81,4 @@ void oal_free(void *ptr);
 oal_tick_t oal_tick_get(void);
 void oal_sleep(uint32_t ms);
 
-#endif /* KERNEL_OAL_H */
+#endif /* OAL_OS_H */
